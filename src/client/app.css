@@ -1,0 +1,25 @@
+h1 {
+  color: green;
+}
+
+body {
+  text-align: center;
+  margin: auto;
+}
+nav{
+  width:15%;
+  float:left;
+}
+ul>li {
+  text-align: left;
+  font-size: 24px;
+  padding: 0.25em;
+  list-style-type: none;
+}
+ul>li a {
+  text-decoration: none;
+}
+.content{
+  float:right;
+  width:85%;
+}
