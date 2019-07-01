@@ -38,12 +38,11 @@ createConnection({
         // ssl: config.dbsslconn, // if not development, will use SSL
     }
 }).then(async connection => {
-
     const app = new Koa();
     app.use(serve('./dist'));
 
     app.use(bodyParser());
-    //app.use(bearerToken());
+    app.use(bearerToken());
     app.use(jwt({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
 
     app.keys = [config.jwtSecret];
@@ -61,8 +60,8 @@ createConnection({
       
     //app.use(session(CONFIG, app));
     app.use(passport.initialize());
-    app.use(passport.session());
-    app.use(router.routes());
+    //app.use(passport.session());
+    app.use(router.routes()).use(router.allowedMethods());;
 
     var server  = http.createServer(app.callback());
    /* let io = socketIO.listen(server);

@@ -24,7 +24,7 @@ const Input = styled.input.attrs(props => ({
     padding: ${props => props.size};
     `;
 
-export default class Login extends Component {
+export default class googleAuth extends Component {
 
     constructor(props) {
         super(props);
@@ -39,12 +39,8 @@ export default class Login extends Component {
             headers: {
             'Authorization': localStorage.getItem('token')
         }})
-            .then(res => res.json())
-            .then(user => this.setState({ name: user.name }));
-    }
-
-    validateForm(){
-        return this.state.email.length > 0 && this.state.password.length > 0;
+        .then(res => res.json())
+        .then(user => this.setState({ name: user.name }));
     }
 
     handleChange = event => {
@@ -54,20 +50,13 @@ export default class Login extends Component {
 
     }
 
-    sendForm = event => {
-        if (this.validateForm()){
-            const values = {
-                email: this.state.email,
-                password: this.state.password
-            };
-            this.sendRequest(values);
-        }
-
+    sendForm = event => {       
+        this.sendRequest();
     }
 
-    sendRequest = (values) => {
-        fetch('/login', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    sendRequest = () => {
+        fetch('/auth/google', {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
             mode: 'cors', // no-cors, cors, *same-origin
             cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
             credentials: 'same-origin', // include, *same-origin, omit
@@ -77,11 +66,10 @@ export default class Login extends Component {
             },
             redirect: 'follow', // manual, *follow, error
             referrer: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify(values), // тип данных в body должен соответвовать значению заголовка "Content-Type"
         })
         .then(res => res.json())
         .then((res)=>{
-            localStorage.setItem('token', res.token); 
+            console.log('отослано в google');
         });
     }
 
@@ -91,16 +79,9 @@ export default class Login extends Component {
             <div>
                 {name ? <h1>{`Hello ${name}`}</h1> : <h1>Loading.. please wait!</h1>}
                 <form id="form-login">
+                
                     <div>
-                        <Input placeholder="email" name="email" onChange={this.handleChange} />
-                    </div>
-                    <div>
-                        <Input placeholder="password" name="password" onChange={this.handleChange} type="password" />
-                    </div>
-                    <br/>
-                    <div>
-                        <Button size="0.5em" onClick={()=>alert('Cancel')}>Cancel</Button>
-                        <Button size="0.5em" onClick={this.sendForm} primary="true" disabled={!this.validateForm()} >Submit</Button>
+                    <a href="/auth/google">Login with Google</a>
                     </div>
                 </form>
             </div>

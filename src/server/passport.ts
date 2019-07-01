@@ -2,12 +2,14 @@ import * as passport from 'koa-passport';
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy; 
 const ExtractJwt = require('passport-jwt').ExtractJwt; 
-import { getManager, Repository, Not, Equal } from 'typeorm';
+const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
+import { getManager, Repository, Not, Equal, getConnection,getCustomRepository } from 'typeorm';
 import { User } from './entity/user';
 import { config } from './config';
 import * as dotenv from 'dotenv';
+import {UserRepository} from './repository/UserRepository';
 dotenv.config({ path: '.env' });
-
+ getCustomRepository(UserRepository); 
 
 
 passport.serializeUser(function(user, done) {
@@ -37,12 +39,11 @@ passport.use(new LocalStrategy({
 }));
 
 const jwtOptions = {
-  jwtFromRequest:  ExtractJwt.fromAuthHeaderAsBearerToken(),
+  jwtFromRequest:  ExtractJwt.fromAuthHeaderWithScheme('JWT'),
   secretOrKey: config.jwtSecret
 };
 
 passport.use(new JwtStrategy(jwtOptions, (payload, done) =>{
-  console.log(payload);
   const userRepository = getManager().getRepository(User);
   return userRepository.findOne(payload.id).
   then((user) => {
@@ -55,4 +56,23 @@ passport.use(new JwtStrategy(jwtOptions, (payload, done) =>{
   .catch((err) => { return done(err); });
   })
 );
+
+
+ 
+passport.use(new GoogleStrategy({
+    clientID:     config.google_client_id,
+    clientSecret: config.google_client_secret,
+    callbackURL: config.domain+"/auth/google/callback",
+    passReqToCallback   : true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+    const userRepository = getManager().getRepository(User);
+    console.log(profile);
+   // userRepository.findOrCreate({ googleId: profile.id }, function (err, user) {
+    //  return done(err, user);
+   // });
+  }
+));
+
+
 export { passport };

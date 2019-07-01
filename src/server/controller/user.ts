@@ -22,12 +22,9 @@ export default class UserController {
     }
 
     public static async getUserName (ctx: BaseContext) {
-        console.log(this.state);
-       // console.log(ctx.isAuthenticated());
         if(ctx.isAuthenticated()){
             await passport.authenticate('jwt', function (err, user) {
                 if (user) {
-                   console.log(1111);
                   ctx.status = 200;
                   ctx.body = {name: user.name};
                 } else {
@@ -67,25 +64,21 @@ export default class UserController {
     public static async login (ctx: BaseContext) {
         const userRepository: Repository<User> = getManager().getRepository(User);
         const user: User = await userRepository.findOne({ email: ctx.request.body.email, password: ctx.request.body.password });
+        if (user) {
+            //ctx.login(user);
+            const payload = {
+                id: user.id,
+                displayName: user.name,
+                email: user.email
+            };
 
-        return passport.authenticate('local', (err, user, info, status) => {
-
-            if (user) {
-                //ctx.login(user);
-                const payload = {
-                    id: user.id,
-                    displayName: user.name,
-                    email: user.email
-                };
-
-                const token = jwt.sign(payload, config.jwtSecret);
-                ctx.body = {user: user.name, token: 'Jwt '+ token};
-                ctx.status = 200;
-            } else {
-                ctx.status = 400;
-                ctx.body = { status: 'error' };
-            }
-        })(ctx);
+            const token = jwt.sign(payload, config.jwtSecret);
+            ctx.body = {user: user.name, token: 'JWT '+token};
+            ctx.status = 200;
+        } else {
+            ctx.status = 400;
+            ctx.body = { status: 'error' };
+        }
     }
 
     public static async createUser (ctx: BaseContext) {

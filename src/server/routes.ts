@@ -10,15 +10,22 @@ router.get('/jwt', controller.general.getJwtPayload);
 // USER ROUTES
 router.get('/users', controller.user.getUsers);
 router.post('/login', controller.user.login);
-router.get('/getUsername', controller.user.getUserName);
+router.get('/getUsername', passport.authenticate('jwt', { session: false }), controller.user.getUserName);
 router.get('/users/:id', controller.user.getUser);
 router.post('/users', controller.user.createUser);
 router.put('/users/:id', controller.user.updateUser);
 router.delete('/users/:id', controller.user.deleteUser);
 
-function veryfyToken (req,res,next){
-    var bearerHeader = req.headers['authorization'];
-    console.log(req.req);
-}
+
+router.get('/auth/google',
+  passport.authenticate('google', { scope:
+  	[ 'email', 'profile' ] }
+));
+ 
+router.get( '/auth/google/callback',
+    passport.authenticate( 'google', {
+        successRedirect: '/auth/google/success',
+        failureRedirect: '/auth/google/failure'
+}));
 
 export { router };

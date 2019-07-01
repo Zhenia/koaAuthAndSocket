@@ -3,6 +3,7 @@ import './app.css';
 import ReactImage from './react.png';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './Login';
+import googleAuth from './googleAuth';
 
 function Home() {
     return (
@@ -41,14 +42,14 @@ export default class App extends Component {
                               <Link to="/login/">Login</Link>
                           </li>
                           <li>
-                              <Link to="/users/">Users</Link>
+                              <Link to="/googleAuth/">googleAuth</Link>
                           </li>
                       </ul>
                   </nav>
                   <div className="content">
                       <Route path="/" exact component={Home} />
                       <Route path="/login/" component={Login} />
-                      <Route path="/users/" component={Users} />
+                      <Route path="/googleAuth/" component={googleAuth} />
                   </div>
 
               </div>
