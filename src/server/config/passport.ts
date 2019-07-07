@@ -1,15 +1,13 @@
 import * as passport from 'koa-passport';
+import {User} from "../entity/user";
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy; 
 const ExtractJwt = require('passport-jwt').ExtractJwt; 
 const GoogleStrategy = require( 'passport-google-oauth2' ).Strategy;
 import { getManager, Repository, Not, Equal, getConnection,getCustomRepository } from 'typeorm';
-import { User } from './entity/user';
 import { config } from './config';
-import * as dotenv from 'dotenv';
-import {UserRepository} from './repository/UserRepository';
-dotenv.config({ path: '.env' });
- getCustomRepository(UserRepository); 
+//import {UserRepository} from './repository/UserRepository';
+// getCustomRepository(UserRepository);
 
 
 passport.serializeUser(function(user, done) {
@@ -57,8 +55,6 @@ passport.use(new JwtStrategy(jwtOptions, (payload, done) =>{
   })
 );
 
-
- 
 passport.use(new GoogleStrategy({
     clientID:     config.google_client_id,
     clientSecret: config.google_client_secret,
@@ -66,11 +62,25 @@ passport.use(new GoogleStrategy({
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
-    const userRepository = getManager().getRepository(User);
-    console.log(profile);
-   // userRepository.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //  return done(err, user);
-   // });
+      if (profile.length) {
+          const userRepository = getManager().getRepository(User);
+          const res = userRepository.findOne(profile.email)
+              .then((user)=>done(user, false))
+              .catch((err) => { return done(err); });
+          if (!res) {
+
+              var userCreate = new User();
+              userCreate.email = profile.email;
+              userCreate.name = profile.displayName;
+              userCreate.password = '1';
+              userRepository.save([userCreate])
+              .then(userCreate => done(userCreate, false))
+              .catch((err) => { return done(err); });
+          }
+
+      }
+
+
   }
 ));
 

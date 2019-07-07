@@ -1,5 +1,5 @@
 import * as Router from 'koa-router';
-import controller = require('./controller');
+import controller = require('./../controller');
 import {passport} from './passport';
 const router = new Router();
 
@@ -8,8 +8,8 @@ const router = new Router();
 router.get('/jwt', controller.general.getJwtPayload);
 
 // USER ROUTES
-router.get('/users', controller.user.getUsers);
-router.post('/login', controller.user.login);
+router.get('/users/list', controller.user.getUsers);
+router.post('/login', controller.auth.login);
 router.get('/getUsername', passport.authenticate('jwt', { session: false }), controller.user.getUserName);
 router.get('/users/:id', controller.user.getUser);
 router.post('/users', controller.user.createUser);
@@ -27,5 +27,12 @@ router.get( '/auth/google/callback',
         successRedirect: '/auth/google/success',
         failureRedirect: '/auth/google/failure'
 }));
+
+router.get('/auth/google/success',
+    passport.authenticate('google', { scope:
+        [ 'email', 'profile' ] }
+    ),controller.auth.googleSuccess);
+
+router.get('/auth/google/failure',controller.auth.googleFailure);
 
 export { router };

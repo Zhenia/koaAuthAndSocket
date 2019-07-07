@@ -15,7 +15,7 @@ const  Button = styled.a`
 const Input = styled.input.attrs(props => ({
     type: props.type || "text",
     size: props.size || "0.5em",
-    }))`
+}))`
     color: palevioletred;
     font-size: 1em;
     border: 2px solid palevioletred;
@@ -24,7 +24,7 @@ const Input = styled.input.attrs(props => ({
     padding: ${props => props.size};
     `;
 
-export default class googleAuth extends Component {
+export default class UserList extends Component {
 
     constructor(props) {
         super(props);
@@ -35,22 +35,15 @@ export default class googleAuth extends Component {
         };
     }
     componentDidMount() {
-        fetch('/getUsername',{ 
+        fetch('/getUsername',{
             headers: {
-            'Authorization': localStorage.getItem('token')
-        }})
-        .then(res => res.json())
-        .then(user => this.setState({ name: user.name }));
+                'Authorization': localStorage.getItem('token')
+            }})
+            .then(res => res.json())
+            .then(user => this.setState({ name: user.name }));
     }
 
-    handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-
-    }
-
-    sendForm = event => {       
+    sendForm = event => {
         this.sendRequest();
     }
 
@@ -67,23 +60,17 @@ export default class googleAuth extends Component {
             redirect: 'follow', // manual, *follow, error
             referrer: 'no-referrer', // no-referrer, *client
         })
-        .then(res => res.json())
-        .then((res)=>{
-            console.log('отослано в google');
-        });
+            .then(res => res.json())
+            .then((res)=>{
+                console.log('отослано в google');
+            });
     }
 
     render() {
         const { name } = this.state;
         return (
             <div>
-                {name ? <h1>{`Hello ${name}`}</h1> : <h1>Loading.. please wait!</h1>}
-                <form id="form-login">
-                
-                    <div>
-                    <a href="/auth/google">Login with Google</a>
-                    </div>
-                </form>
+                <Button href="/auth/google">Sign in with google</Button>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
+import GoogleAuth from './GoogleAuth.jsx';
 
 const  Button = styled.a`
   background: ${props => props.primary && !props.disabled ? "palevioletred" : "white"};
@@ -10,6 +10,8 @@ const  Button = styled.a`
   padding: 0.5em 1em;
   border: 2px solid palevioletred;
   border-radius: 3px;
+  display:inline-block;
+  min-width:170px;
 `
 
 const Input = styled.input.attrs(props => ({
@@ -34,6 +36,7 @@ export default class Login extends Component {
             password: ""
         };
     }
+
     componentDidMount() {
         fetch('/getUsername',{ 
             headers: {
@@ -97,10 +100,9 @@ export default class Login extends Component {
                     <div>
                         <Input placeholder="password" name="password" onChange={this.handleChange} type="password" />
                     </div>
-                    <br/>
                     <div>
-                        <Button size="0.5em" onClick={()=>alert('Cancel')}>Cancel</Button>
-                        <Button size="0.5em" onClick={this.sendForm} primary="true" disabled={!this.validateForm()} >Submit</Button>
+                        <Button size="0.5em" onClick={this.sendForm} primary="true" disabled={!this.validateForm()} >Login in</Button>
+                        <GoogleAuth/>
                     </div>
                 </form>
             </div>

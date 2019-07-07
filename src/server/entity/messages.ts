@@ -1,18 +1,18 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
-export class Patient {
+export class Messages {
 
     @PrimaryGeneratedColumn()
     id: string;
 
     @Column()
-    firstName: string;
+    text: string;
 
     @Column()
-    lastName: string;
+    author: string;
 
     @Column()
-    isActive: boolean;
+    date: date;
 
 }

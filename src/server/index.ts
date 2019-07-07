@@ -1,23 +1,21 @@
 import * as Koa from 'koa';
 import * as bodyParser from 'koa-bodyparser';
 import * as serve from 'koa-static';
-import * as dotenv from 'dotenv';
 import { createConnection } from 'typeorm';
 import 'reflect-metadata';
 const session = require('koa-session');
 import * as PostgressConnectionStringParser from 'pg-connection-string';
 import { logger } from './logging';
-import { config } from './config';
-import { router } from './routes';
+import { config } from './config/config';
+import { router } from './config/routes';
 import {User} from './entity/user';
-import {passport} from './passport';
+import {passport} from './config/passport';
 const bearerToken = require('koa-bearer-token')
 var jwt = require('koa-jwt');
-dotenv.config({ path: '.env' });
 const socketioJwt = require('socketio-jwt'); // auth via JWT for socket.io
 const socketIO = require('socket.io');
 const http = require('http');
-
+require('dotenv').config();
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
 const dbPort = parseInt(connectionOptions.port);
 
@@ -47,18 +45,7 @@ createConnection({
 
     app.keys = [config.jwtSecret];
 
-    const CONFIG = {
-        key: config.jwtSecret, 
-        maxAge: 86400000,
-        autoCommit: true, /** (boolean) automatically commit headers (default true) */
-        overwrite: true, /** (boolean) can overwrite or not (default true) */
-        httpOnly: true, /** (boolean) httpOnly or not (default true) */
-        signed: true, /** (boolean) signed or not (default true) */
-        rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
-        renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
-      };
-      
-    //app.use(session(CONFIG, app));
+
     app.use(passport.initialize());
     //app.use(passport.session());
     app.use(router.routes()).use(router.allowedMethods());;

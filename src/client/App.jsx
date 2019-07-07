@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import './app.css';
 import ReactImage from './react.png';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Login from './Login';
-import googleAuth from './googleAuth';
+import Login from './Login'
+import Chat from './Chat'
+import UserList from './UserList'
 
 function Home() {
     return (
@@ -24,8 +25,10 @@ export default class App extends Component {
   componentDidMount() {
     fetch('/getUsername')
       .then(res => res.json())
-      .then(user => this.setState({ username: user.username }));
+      .then(user => user?this.setState({ username: user.username }):'')
+      .catch((err)=>console.log(err));
   }
+
 
   render() {
     const { username } = this.state;
@@ -39,17 +42,22 @@ export default class App extends Component {
                               <Link to="/">Home</Link>
                           </li>
                           <li>
-                              <Link to="/login/">Login</Link>
+                              <Link to="/auth/">Login</Link>
                           </li>
                           <li>
-                              <Link to="/googleAuth/">googleAuth</Link>
+                              <Link to="/chat/">Chat</Link>
                           </li>
+                          <li>
+                              <Link to="/user-list/">User list</Link>
+                          </li>
+
                       </ul>
                   </nav>
                   <div className="content">
                       <Route path="/" exact component={Home} />
-                      <Route path="/login/" component={Login} />
-                      <Route path="/googleAuth/" component={googleAuth} />
+                      <Route path="/auth/" component={Login} />
+                      <Route path="/chat/" component={Chat} />
+                      <Route path="/user-list/" component={UserList} />
                   </div>
 
               </div>
