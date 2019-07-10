@@ -68,44 +68,58 @@ export default class Login extends Component {
 
     }
 
+    logout = event => {
+        localStorage.removeItem('token');
+        this.setState({
+            name: undefined
+        });
+    }
+
     sendRequest = (values) => {
         fetch('/login', {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, cors, *same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
+            method: 'POST', 
+            mode: 'cors',
+            cache: 'no-cache', 
+            credentials: 'same-origin', 
             headers: {
-                'Content-Type': 'application/json',
-                // 'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json'
             },
-            redirect: 'follow', // manual, *follow, error
-            referrer: 'no-referrer', // no-referrer, *client
-            body: JSON.stringify(values), // тип данных в body должен соответвовать значению заголовка "Content-Type"
+            redirect: 'follow', 
+            referrer: 'no-referrer',
+            body: JSON.stringify(values)
         })
         .then(res => res.json())
         .then((res)=>{
             localStorage.setItem('token', res.token); 
+            this.setState({
+                name: res.user
+            });
         });
     }
 
     render() {
         const { name } = this.state;
+        const form =this.renderForm(); 
         return (
             <div>
-                {name ? <h1>{`Hello ${name}`}</h1> : <h1>Loading.. please wait!</h1>}
-                <form id="form-login">
-                    <div>
-                        <Input placeholder="email" name="email" onChange={this.handleChange} />
-                    </div>
-                    <div>
-                        <Input placeholder="password" name="password" onChange={this.handleChange} type="password" />
-                    </div>
-                    <div>
-                        <Button size="0.5em" onClick={this.sendForm} primary="true" disabled={!this.validateForm()} >Login in</Button>
-                        <GoogleAuth/>
-                    </div>
-                </form>
+                {name ? <div><h1>{`Hello ${name}`}</h1><Button size="0.5em" onClick={this.logout} >Logout</Button></div> : form}
             </div>
         );
+    }
+
+    renderForm(){
+        return (  
+        <form id="form-login">
+            <div>
+                <Input placeholder="email" name="email" onChange={this.handleChange} />
+            </div>
+            <div>
+                <Input placeholder="password" name="password" onChange={this.handleChange} type="password" />
+            </div>
+            <div>
+                <Button size="0.5em" onClick={this.sendForm} primary="true" disabled={!this.validateForm()} >Login in</Button>
+                <GoogleAuth/>
+            </div>
+        </form>)
     }
 }

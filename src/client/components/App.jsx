@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './app.css';
-import ReactImage from './react.png';
+import './../app.css';
+import ReactImage from './../react.png';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Login from './Login'
 import Chat from './Chat'

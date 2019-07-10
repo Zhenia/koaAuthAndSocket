@@ -62,22 +62,25 @@ passport.use(new GoogleStrategy({
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
-      if (profile.length) {
+      if (profile!=undefined) {
           const userRepository = getManager().getRepository(User);
-          const res = userRepository.findOne(profile.email)
-              .then((user)=>done(user, false))
-              .catch((err) => { return done(err); });
-          if (!res) {
-
-              var userCreate = new User();
-              userCreate.email = profile.email;
-              userCreate.name = profile.displayName;
-              userCreate.password = '1';
-              userRepository.save([userCreate])
-              .then(userCreate => done(userCreate, false))
-              .catch((err) => { return done(err); });
-          }
-
+          return userRepository.findOne({email:profile.email})
+              .then((user)=>{
+                if (user!=undefined){
+                  return done(false,user)
+                }
+                else{
+                  var userCreate = new User();
+                  userCreate.email = profile.email;
+                  userCreate.name = profile.displayName;
+                  userCreate.password = '1';
+                  userRepository.save(userCreate)
+                  .then(userCreate => done(false,userCreate))
+                  .catch((err) => done(err)); 
+                }
+              })
+              .catch((err) => done(err));
+       
       }
 
 

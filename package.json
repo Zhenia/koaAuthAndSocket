@@ -41,6 +41,8 @@
     "react-router-dom": "^5.0.1",
     "socket.io": "^2.2.0",
     "socketio-jwt": "^4.5.0",
+    "styled-bootstrap-components": "^4.0.0-alpha.0",
+    "styled-form-component": "^3.0.1",
     "styled-table-component": "^3.0.1",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.2"

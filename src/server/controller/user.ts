@@ -20,15 +20,8 @@ export default class UserController {
 
     public static async getUserName (ctx: BaseContext) {
         if(ctx.isAuthenticated()){
-            await passport.authenticate('jwt', function (err, user) {
-                if (user) {
-                  ctx.status = 200;
-                  ctx.body = {name: user.name};
-                } else {
-                  ctx.body = {message:"No such user"};
-                  console.log("err", err)
-                }
-              } )(ctx)  
+            ctx.status = 200;
+            ctx.body = {name: ctx.state.user.name}; 
         }else{
             let os = require('os');
             ctx.status = 200;

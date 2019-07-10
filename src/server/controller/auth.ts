@@ -26,43 +26,20 @@ export default class AuthController {
         }
     }
 
-    public static async googleSuccess (ctx: BaseContext) {
-        const userRepository: Repository<User> = getManager().getRepository(User);
-        const user: User = await userRepository.findOne({
-            email: ctx.request.body.email,
-            password: ctx.request.body.password
-        });
-        if (user) {
+    public static async googleAuth (ctx: BaseContext) {
+        if (ctx.isAuthenticated()){
+            const user = ctx.state.user;
             const payload = {
                 id: user.id,
                 displayName: user.name,
                 email: user.email
             };
             const token = jwt.sign(payload, config.jwtSecret);
+            // @todo надо дописать вход через JWT и iframe 
             ctx.body = {user: user.name, token: 'JWT '+token};
             ctx.status = 200;
-        } else {
-            ctx.status = 400;
-            ctx.body = { status: 'error' };
         }
-    }
-
-    public static async googleFailure (ctx: BaseContext) {
-        const userRepository: Repository<User> = getManager().getRepository(User);
-        const user: User = await userRepository.findOne({
-            email: ctx.request.body.email,
-            password: ctx.request.body.password
-        });
-        if (user) {
-            const payload = {
-                id: user.id,
-                displayName: user.name,
-                email: user.email
-            };
-            const token = jwt.sign(payload, config.jwtSecret);
-            ctx.body = {user: user.name, token: 'JWT '+token};
-            ctx.status = 200;
-        } else {
+        else {
             ctx.status = 400;
             ctx.body = { status: 'error' };
         }

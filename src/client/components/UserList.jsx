@@ -37,7 +37,7 @@ export default class UserList extends Component {
     }
 
     componentDidMount() {
-        fetch('/users/list',{
+        fetch('/users',{
             headers: {
                 'Authorization': localStorage.getItem('token')
             }})

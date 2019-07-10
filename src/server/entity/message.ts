@@ -1,7 +1,7 @@
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
-export class Messages {
+export class Message {
 
     @PrimaryGeneratedColumn()
     id: string;
@@ -13,6 +13,5 @@ export class Messages {
     author: string;
 
     @Column()
-    date: date;
-
+    date: Date;
 }
