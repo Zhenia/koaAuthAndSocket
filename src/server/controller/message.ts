@@ -30,7 +30,7 @@ export default class MessageController {
         return messageList;
     }
 
-    public static async getMessages (ctx: BaseContext) {
+    public static async getMessages (ctx: BaseContext,next) {
         const messageRepository: Repository<Message> = getManager().getRepository(Message);
         const messageList: Message[] = await messageRepository.find();
         ctx.status = 200;

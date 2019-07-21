@@ -10,11 +10,20 @@ import {User} from './entity/user';
 import {Message} from './entity/message';
 import {passport} from './config/passport';
 import {socketRoutes} from './config/socketRoutes';
-const acl = require('koa-2-acl')
+const acl = require('koa-2-acl');
 const bearerToken = require('koa-bearer-token')
-var jwt = require('koa-jwt');
+var jwtKoa = require('koa-jwt');
+const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
 const http = require('http');
+
+declare module "koa" {
+    interface Request {
+        decoded: any;
+    }
+}
+
+
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
 const dbPort = parseInt(connectionOptions.port);
 
@@ -40,14 +49,36 @@ createConnection({
 
     app.use(bodyParser());
     app.use(bearerToken());
-    app.use(jwt({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
+    app.use(jwtKoa({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
     app.keys = [config.jwtSecret];
     app.use(passport.initialize());
+    app.use(async (ctx, next) => {
+        const token = ctx.request.headers['authorization']
+        if (token) {
+            let codeStr = token.split(" ")[1]
+            jwt.verify(codeStr, config.jwtSecret, (err, decoded) => {
+                if (err) ctx.throw(err)
+                ctx.request.decoded = decoded;
+            })
+        }
+        await next();
+    });
+    app.use(router.routes());
 
-    app.use(router.routes()).use(router.allowedMethods());
+    acl.config({
+        filename: 'acl.json',
+        defaultRole: 'anonymous',
+        searchPath: 'default.role',
+        path:'src/server/config/'
+        },
+        {
+        status: 'Access Denied',
+        message: 'You are not authorized to access this resource'
+    });
+
     app.use(acl.authorize);
     var server  = http.createServer(app.callback());
-    server.io = socketIO.listen(server);    
+    server.io = socketIO.listen(server);
     socketRoutes(server.io, router);
     server.listen(config.port);
     console.log(`Server running on port ${config.port}`);

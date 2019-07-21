@@ -48,7 +48,6 @@ export default class UserList extends Component {
     renderItem(item){
 
         if (item){
-            console.log(item)
             return( <Tr data-id="{item.id}">
                 <td>{item.name}</td>
                 <td>{item.email}</td>
@@ -65,7 +64,6 @@ export default class UserList extends Component {
 
     render() {
         const { users } = this.state;
-        console.log(users);
         return (
             <div>
                 <Table>

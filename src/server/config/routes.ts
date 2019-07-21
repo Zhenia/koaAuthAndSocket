@@ -7,6 +7,7 @@ const router = new Router();
 //router.get('/', controller.general.helloWorld);
 router.get('/jwt', controller.general.getJwtPayload);
 
+
 // USER ROUTES
 router.get('/users', controller.user.getUsers);
 router.post('/login', controller.auth.login);

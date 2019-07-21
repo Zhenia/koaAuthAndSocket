@@ -14,4 +14,6 @@ export default class GeneralController {
         ctx.body = ctx.state.user;
     }
 
+
+
 }

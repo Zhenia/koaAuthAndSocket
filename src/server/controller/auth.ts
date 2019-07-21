@@ -4,6 +4,12 @@ import { validate, ValidationError } from 'class-validator';
 import { User } from '../entity/user';
 const jwt = require('jsonwebtoken');
 import { config } from '../config/config';
+
+declare module "koa" {
+    interface Request {
+        decoded: any;
+    }
+}
 export default class AuthController {
     public static async login (ctx: BaseContext) {
         const userRepository: Repository<User> = getManager().getRepository(User);
@@ -15,7 +21,8 @@ export default class AuthController {
             const payload = {
                 id: user.id,
                 displayName: user.name,
-                email: user.email
+                email: user.email,
+                role:'user'
             };
             const token = jwt.sign(payload, config.jwtSecret);
             ctx.body = {user: user.name, token: 'JWT '+token};

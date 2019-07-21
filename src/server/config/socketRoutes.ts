@@ -10,8 +10,7 @@ export function socketRoutes (io, router) {
         timeout: 15000
       }))
     .on('authenticated', function (socket) {
-      console.log(socket);
-      
+
       console.log('this is the name from the JWT: ' + socket.decoded_token.displayName);
     
       socket.on("clientEvent", (data) => {
