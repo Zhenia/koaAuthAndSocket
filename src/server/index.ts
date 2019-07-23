@@ -17,11 +17,11 @@ const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
 const http = require('http');
 
-declare module "koa" {
+/*declare module "koa" {
     interface Request {
         decoded: any;
     }
-}
+}*/
 
 
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
@@ -44,9 +44,8 @@ createConnection({
         // ssl: config.dbsslconn, // if not development, will use SSL
     }
 }).then(async connection => {
-    const app = new Koa();
+    const app: any = new Koa();
     app.use(serve('./dist'));
-
     app.use(bodyParser());
     app.use(bearerToken());
     app.use(jwtKoa({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
@@ -54,7 +53,8 @@ createConnection({
     app.use(passport.initialize());
     app.use(async (ctx, next) => {
         const token = ctx.request.headers['authorization']
-        if (token) {
+        if (ctx.isAuthenticated()) {
+            console.log(111);
             let codeStr = token.split(" ")[1]
             jwt.verify(codeStr, config.jwtSecret, (err, decoded) => {
                 if (err) ctx.throw(err)

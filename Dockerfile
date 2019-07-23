@@ -5,11 +5,9 @@ WORKDIR /home/app
 
 COPY package.json /home/app/
 COPY package-lock.json /home/app/
-
+RUN apk --no-cache add --virtual builds-deps build-base python
 RUN npm ci
-
 COPY . /home/app
-
 RUN npm run build
 
 CMD ./scripts/start.sh
