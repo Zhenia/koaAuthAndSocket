@@ -10,7 +10,7 @@ import {User} from './entity/user';
 import {Message} from './entity/message';
 import {passport} from './config/passport';
 import {socketRoutes} from './config/socketRoutes';
-const acl = require('koa-2-acl');
+//const acl = require('koa-2-acl');
 const bearerToken = require('koa-bearer-token')
 var jwtKoa = require('koa-jwt');
 const jwt = require('jsonwebtoken');
@@ -65,7 +65,7 @@ createConnection({
     });
     app.use(router.routes());
 
-    acl.config({
+   /* acl.config({
         filename: 'acl.json',
         defaultRole: 'anonymous',
         searchPath: 'default.role',
@@ -76,7 +76,7 @@ createConnection({
         message: 'You are not authorized to access this resource'
     });
 
-    app.use(acl.authorize);
+    app.use(acl.authorize);*/
     var server  = http.createServer(app.callback());
     server.io = socketIO.listen(server);
     socketRoutes(server.io, router);

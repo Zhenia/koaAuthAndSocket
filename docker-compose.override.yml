@@ -4,5 +4,5 @@ services:
   app:
     env_file: .env
     volumes:
-      - .:/home/koaAuthAndSocket/
-      - /home/koaAuthAndSocket/node_modules
+      - .:/home/app/
+      - /home/app/node_modules
