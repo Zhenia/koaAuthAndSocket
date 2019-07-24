@@ -7,9 +7,10 @@ services:
       - postgres
     ports:
       - "3000:3000"
-      - "5432:5432"
 
   postgres:
     image: postgres:10-alpine
+    ports:
+      - "5432:5432"
     environment:
       DATABASE_URL: postgres://postgres:123@127.0.0.1:5432/test_app

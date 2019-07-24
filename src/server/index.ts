@@ -17,13 +17,6 @@ const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
 const http = require('http');
 
-/*declare module "koa" {
-    interface Request {
-        decoded: any;
-    }
-}*/
-
-
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
 const dbPort = parseInt(connectionOptions.port);
 
@@ -41,7 +34,7 @@ createConnection({
         User
     ],
     extra: {
-        // ssl: config.dbsslconn, // if not development, will use SSL
+        ssl: config.dbsslconn, // if not development, will use SSL
     }
 }).then(async connection => {
     const app: any = new Koa();
@@ -51,10 +44,10 @@ createConnection({
     app.use(jwtKoa({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
     app.keys = [config.jwtSecret];
     app.use(passport.initialize());
-    app.use(async (ctx, next) => {
+    /* ACL*/
+    /*app.use(async (ctx, next) => {
         const token = ctx.request.headers['authorization']
         if (ctx.isAuthenticated()) {
-            console.log(111);
             let codeStr = token.split(" ")[1]
             jwt.verify(codeStr, config.jwtSecret, (err, decoded) => {
                 if (err) ctx.throw(err)
@@ -63,9 +56,13 @@ createConnection({
         }
         await next();
     });
+    */
+    /* ACL*/
     app.use(router.routes());
 
-   /* acl.config({
+
+   /* ACL*/
+   /*acl.config({
         filename: 'acl.json',
         defaultRole: 'anonymous',
         searchPath: 'default.role',
@@ -76,10 +73,16 @@ createConnection({
         message: 'You are not authorized to access this resource'
     });
 
-    app.use(acl.authorize);*/
+    app.use(acl.authorize);
+    */
+   /* ACL*/
+
+
     var server  = http.createServer(app.callback());
+
     server.io = socketIO.listen(server);
     socketRoutes(server.io, router);
+
     server.listen(config.port);
     console.log(`Server running on port ${config.port}`);
 
