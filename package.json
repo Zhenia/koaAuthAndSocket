@@ -6,10 +6,10 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "npm run build && ts-node src/server/index.ts",
-    "watch-server": "nodemon --watch 'src/server/**/*' -e ts,tsx --exec node --inspect -r  ts-node/register  src/server/index.ts",
+    "watch-server": "fuser -k 3000/tcp; nodemon --watch 'src/server/**/*' -e ts,tsx --exec node --inspect -r  ts-node/register  src/server/index.ts",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.ts",
-    "dev": "concurrently \"npm run watch-server\" \"npm run client\""
+    "dev": "concurrently -k --success first \"npm run watch-server\" \"npm run client\""
   },
   "license": "ISC",
   "dependencies": {
@@ -25,11 +25,12 @@
     "@types/node": "^10.7.0",
     "@types/shelljs": "^0.8.0",
     "babel-polyfill": "^6.26.0",
-    "bcrypt": "^3.0.6",
+    "bcryptjs": "^2.4.3",
     "class-validator": "^0.9.1",
     "dotenv": "^8.0.0",
     "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
+    "kill-port": "^1.5.1",
     "koa-bearer-token": "^1.0.0",
     "koa-session": "^5.12.0",
     "os": "^0.1.1",

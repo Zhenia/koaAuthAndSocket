@@ -1,3 +1,10 @@
 {
-  "watch": ["src/server/"]
+  "watch": ["src/server/"],
+  "events": {
+    "start": "fuser -k 3000/tcp",
+    "restart": "fuser -k 3000/tcp",
+    "crash": "fuser -k 3000/tcp"
+  },
+ "delay": "3500"
+  
 }
