@@ -6,10 +6,10 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "npm run build && ts-node src/server/index.ts",
-    "watch-server": "fuser -k 3000/tcp; nodemon --watch 'src/server/**/*' -e ts,tsx --exec node --inspect -r  ts-node/register  src/server/index.ts",
+    "watch-server": "nodemon --watch 'src/server/**/*' -e ts,tsx --exec node --inspect -r  ts-node/register  src/server/index.ts",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
-    "server": "nodemon src/server/index.ts",
-    "dev": "concurrently -k --success first \"npm run watch-server\" \"npm run client\""
+    "server": "nodemon --watch 'src/server/**/*' -e ts,tsx --exec node --inspect -r  ts-node/register  src/server/index.ts",
+    "dev": "concurrently \"npm run watch-server\" \"npm run client\""
   },
   "license": "ISC",
   "dependencies": {
