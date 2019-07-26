@@ -20,7 +20,6 @@ router.delete('/users/:id', controller.user.deleteUser);
 // MESSAGES ROUTES
 router.get('/messages', controller.message.getMessages);
 
-
 router.get('/auth/google',
   passport.authenticate('google', { scope:
   	[ 'email', 'profile' ] }

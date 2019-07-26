@@ -4,6 +4,7 @@ import { validate, ValidationError } from 'class-validator';
 import { User } from '../entity/user';
 const jwt = require('jsonwebtoken');
 import { config } from '../config/config';
+var store = require('store');
 
 declare module "koa" {
     interface Request {
@@ -43,7 +44,7 @@ export default class AuthController {
             };
             const token = jwt.sign(payload, config.jwtSecret);
             // @todo надо дописать вход через JWT и iframe 
-            ctx.body = {user: user.name, token: 'JWT '+token};
+            store.set('token', token);
             ctx.status = 200;
         }
         else {

@@ -17,6 +17,10 @@ const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
 const http = require('http');
 
+import App  from '../client/components/App';
+import { match, RouterContext } from 'react-router';
+const ReactDOM = require('react-dom');
+
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
 const dbPort = parseInt(connectionOptions.port);
 
@@ -44,6 +48,10 @@ createConnection({
     app.use(jwtKoa({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
     app.keys = [config.jwtSecret];
     app.use(passport.initialize());
+
+
+
+    
     /* ACL*/
     /*app.use(async (ctx, next) => {
         const token = ctx.request.headers['authorization']
@@ -58,7 +66,15 @@ createConnection({
     });
     */
     /* ACL*/
+
+
+    app.use(async (ctx, next) => {
+        
+          const componentHTML = ReactDOM.renderToString(<App />);
+    });
+    
     app.use(router.routes());
+
 
 
    /* ACL*/

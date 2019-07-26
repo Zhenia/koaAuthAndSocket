@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import GoogleAuth from './GoogleAuth.jsx';
+import GoogleAuth from './GoogleAuth';
 
 const  Button = styled.a`
   background: ${props => props.primary && !props.disabled ? "palevioletred" : "white"};
