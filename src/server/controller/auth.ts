@@ -7,7 +7,7 @@ import { config } from '../config/config';
 
 declare module "koa" {
     interface Request {
-        decoded: any;
+        decoded;
     }
 }
 export default class AuthController {

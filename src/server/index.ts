@@ -37,7 +37,7 @@ createConnection({
         ssl: config.dbsslconn, // if not development, will use SSL
     }
 }).then(async connection => {
-    const app: any = new Koa();
+    const app = new Koa();
     app.use(serve('./dist'));
     app.use(bodyParser());
     app.use(bearerToken());

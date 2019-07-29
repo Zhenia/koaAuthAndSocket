@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+
+import * as React from 'react' 
 import './../app.css';
 import ReactImage from './../react.png';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -19,8 +20,9 @@ function Users() {
     return <h2>Users</h2>;
 }
 
-export default class App extends Component {
-  state = { username: null };
+export default class App extends React.Component {
+  state:object = { username: null };
+  
 
   componentDidMount() {
     fetch('/getUsername')
