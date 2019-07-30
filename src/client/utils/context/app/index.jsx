@@ -4,10 +4,15 @@ import { Context, defaultRole, defaultUserid } from './../user-context';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.toggleUser = user => {
       this.setState({
         user: user
+      });
+    };
+
+    this.toggleOrganization = data => {
+      this.setState({
+        organization: data.organization
       });
     };
 
@@ -17,7 +22,10 @@ export default class App extends React.Component {
         role: defaultRole,
         userid:defaultUserid
       },
-      toggleUser: this.toggleUser
+      organization: {},
+      toggleUser: this.toggleUser,
+      toggleOrganization: this.toggleOrganization
+    };
   }
   render() {
     return (
@@ -26,5 +34,4 @@ export default class App extends React.Component {
       </Context.Provider>
     );
   }
-}
 }

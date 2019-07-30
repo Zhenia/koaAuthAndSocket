@@ -15,7 +15,8 @@ export default class UserController {
         const users: User[] = await userRepository.find({ select: ["name", "email"] });
         // return OK status code and loaded users array
         ctx.status = 200;
-        ctx.body = users;
+        const data = {users}
+        ctx.body = {data};
     }
 
     public static async getUserName (ctx: BaseContext) {

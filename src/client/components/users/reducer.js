@@ -14,19 +14,19 @@ export const initialState: State = {
 
 export default (state: State = initialState, action: any): State => {
   switch (action.type) {
-    case t.LOAD_UP_LIST_ROLES: {
+    case t.LOAD_UP_LIST_USERS: {
       return { ...state, isLoad: true, error: null };
     }
-    case t.LOAD_UP_LIST_ROLES_FAILED: {
+    case t.LOAD_UP_LIST_USERS_FAILED: {
       return { ...state, isLoad: false, error: action.error };
     }
-    case t.LOAD_UP_LIST_ROLES_SUCCEEDED: {
+    case t.LOAD_UP_LIST_USERS_SUCCEEDED: {
       return {
         ...state,
         isLoad: false,
         pageData: {
           ...state.pageData,
-          roles: action.payload.roles,
+          users: action.payload.users,
           roleType: action.payload.roleType
         }
       };

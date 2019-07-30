@@ -4,21 +4,20 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 
 import fetch from './../../utils/api';
 
-export function* loadUpListRoles(action: any): any {
+export function* loadUpListMessages(action: any): any {
   try {
-    const roleType = yield call(fetch.get, '/api/user/current');
-    const response = yield call(fetch.get, '/api/roles/');
+    const response = yield call(fetch.get, '/messages');
     yield put({
-      type: t.LOAD_UP_LIST_ROLES_SUCCEEDED,
+      type: t.LOAD_UP_LIST_MESSAGES_SUCCEEDED,
       payload: {
-        roles: response.result.data.roles,
-        roleType: roleType.result.data.role
+        messages: response.data.messages,
+        roleType: {}
       }
     });
   } catch (error) {
     const response = error.response || { data: {} };
     yield put({
-      type: t.LOAD_UP_LIST_ROLES_FAILED,
+      type: t.LOAD_UP_LIST_MESSAGES_FAILED,
       error: {
         message: response.data.message || error.message,
         stack: error.stack,
@@ -31,11 +30,11 @@ export function* loadUpListRoles(action: any): any {
 
 
 
-export function* watcherLoadUpListRoles(): any {
-  yield takeEvery(t.LOAD_UP_LIST_ROLES, loadUpListRoles);
+export function* watcherLoadUpListMessages(): any {
+  yield takeEvery(t.LOAD_UP_LIST_MESSAGES, loadUpListMessages);
 }
 
 
 export const watchers = {
-  watcherLoadUpListRoles
+  watcherLoadUpListMessages
 };

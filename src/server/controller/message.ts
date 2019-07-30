@@ -32,9 +32,10 @@ export default class MessageController {
 
     public static async getMessages (ctx: BaseContext,next) {
         const messageRepository: Repository<Message> = getManager().getRepository(Message);
-        const messageList: Message[] = await messageRepository.find();
+        const messages: Message[] = await messageRepository.find();
         ctx.status = 200;
-        ctx.body = messageList;
+        const data = {messages}
+        ctx.body = {data};
         
     }
 
