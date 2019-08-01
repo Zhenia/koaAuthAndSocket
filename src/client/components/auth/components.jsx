@@ -35,6 +35,7 @@ export default class LoginComponent extends Component {
             password: "",
             token:""
         };
+        this.logout = this.logout.bind(this);
     }
 
     validateForm(){
@@ -60,7 +61,7 @@ export default class LoginComponent extends Component {
     }
 
     logout = (event) => {
-        windows.localStorage.removeItem('token');
+        this.props.actions.logoutFormUser();
     }
     
 

@@ -3,12 +3,12 @@ const socketioJwt = require('socketio-jwt');
 import { config } from './../config/config';
 import {Message} from './../entity/message'
 
-export function socketRoutes (io, router) {
- 
+export function socketRoutes (io) {
+    console.log(config.jwtSecret);
     io.sockets.on('connection', socketioJwt.authorize({
         secret: config.jwtSecret,
         timeout: 15000
-      }))
+    }))
     .on('authenticated', function (socket) {
 
       console.log('this is the name from the JWT: ' + socket.decoded_token.displayName);

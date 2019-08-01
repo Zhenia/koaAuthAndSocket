@@ -13,7 +13,6 @@ export const initialState: State = {
 };
 
 export default (state: State = initialState, action: any): State => {
-  console.log(action.type);
   switch (action.type) {
     case t.LOAD_UP_LIST_MESSAGES: {
       return { ...state, isLoad: true, error: null };

@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Auth from "./auth";
 import ChatComponent from "./chat";
 import UsersComponent from "./users";
-import Login from "./login";
 
 function Home() {
   return (
@@ -50,9 +49,6 @@ export default class App extends React.Component {
                 <li>
                   <Link to="/users/">User list</Link>
                 </li>
-                <li>
-                  <Link to="/login/">login</Link>
-                </li>
               </ul>
             </nav>
             <div className="content">
@@ -60,7 +56,6 @@ export default class App extends React.Component {
               <Route path="/auth/" component={Auth} />
               <Route path="/chat/" component={ChatComponent} />
               <Route path="/users/" component={UsersComponent} />
-              <Route path="/login/" component={Login} />
             </div>
           </div>
         </Router>

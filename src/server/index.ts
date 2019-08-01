@@ -79,9 +79,8 @@ createConnection({
 
 
     var server  = http.createServer(app.callback());
-
     server.io = socketIO.listen(server);
-    socketRoutes(server.io, router);
+    socketRoutes(server.io);
 
     server.listen(config.port);
     console.log(`Server running on port ${config.port}`);

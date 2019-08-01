@@ -15,6 +15,18 @@ export const initialState: State = {
 export default (state: State = initialState, action: any): State => {
 
   switch (action.type) {
+    case t.LOGOUT_FORM_USER: {
+      window.localStorage.removeItem('token');
+      return {
+        ...state,
+        isLoad: false,
+        pageData: {
+          ...state.pageData,
+          name: '',
+          token: ''
+        }
+      };
+    }
     case t.LOGIN_FORM_USER: {
       return { ...state, isLoad: true, error: null };
     }
@@ -22,7 +34,7 @@ export default (state: State = initialState, action: any): State => {
       return { ...state, isLoad: false, error: action.error };
     }
     case t.LOGIN_FORM_USER_SUCCEEDED: {
-      window.localStorage.setItem('token', JSON.stringify(action.payload.token));
+      window.localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         isLoad: false,

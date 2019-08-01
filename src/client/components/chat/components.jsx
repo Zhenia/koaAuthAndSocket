@@ -27,8 +27,11 @@ class ChatComponent extends React.Component {
   }
  
   sendMessage = event =>{
+     
       const textMessage = this.state.newMessage;
+      alert(textMessage);
       if (textMessage){
+          
           socket.emit("addMessage", textMessage);
       }
   }
