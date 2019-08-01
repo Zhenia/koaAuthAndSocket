@@ -18,7 +18,7 @@ router.put('/users/:id', controller.user.updateUser);
 router.delete('/users/:id', controller.user.deleteUser);
 
 // MESSAGES ROUTES
-router.get('/messages', controller.message.getMessages);
+router.get('/messages', passport.authenticate('jwt', { session: false }), controller.message.getMessages);
 
 
 router.get('/auth/google',

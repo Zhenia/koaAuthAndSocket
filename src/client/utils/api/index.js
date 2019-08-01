@@ -13,10 +13,9 @@ if (process.env.NODE_ENV === 'production') {
 const fetch = axios.create({ baseURL });
 fetch.interceptors.request.use(
   config => {
-    const auth =
-      JSON.parse(window.localStorage.getItem('token') || '{}') || {};
-    if (typeof auth === 'object' && auth.token) {
-      config.headers.Authorization = auth.token;
+    const token = window.localStorage.getItem('token') 
+    if (token && token.length) {
+      config.headers.Authorization = token;
     }
 
     config.headers['Cache-Control'] =
@@ -34,8 +33,9 @@ fetch.interceptors.request.use(
         }
       }
     }
-
     return config;
+
+   
   },
   error => {
     return Promise.reject(error);

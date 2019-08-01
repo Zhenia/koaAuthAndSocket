@@ -1,11 +1,11 @@
 // @flow
 import * as t from './actionTypes';
 
-export const loadUpListMessages = () => {
-  return {
-    type: t.LOAD_UP_LIST_MESSAGES
-  }
-}
+export const loginFormUser = (data: any) => ({
+  type: t.LOGIN_FORM_USER,
+  payload: data
+});
+
 
 export const refreshBaseComponent = () =>
   ({

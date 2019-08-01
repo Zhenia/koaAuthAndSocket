@@ -13,23 +13,23 @@ export const initialState: State = {
 };
 
 export default (state: State = initialState, action: any): State => {
-  console.log(action.type);
+
   switch (action.type) {
-    case t.LOAD_UP_LIST_MESSAGES: {
+    case t.LOGIN_FORM_USER: {
       return { ...state, isLoad: true, error: null };
     }
-    case t.LOAD_UP_LIST_MESSAGES_FAILED: {
+    case t.LOGIN_FORM_USER_FAILED: {
       return { ...state, isLoad: false, error: action.error };
     }
-    case t.LOAD_UP_LIST_MESSAGES_SUCCEEDED: {
-      
+    case t.LOGIN_FORM_USER_SUCCEEDED: {
+      window.localStorage.setItem('token', JSON.stringify(action.payload.token));
       return {
         ...state,
         isLoad: false,
         pageData: {
           ...state.pageData,
-          messages: action.payload.messages,
-          roleType: action.payload.roleType
+          name: action.payload.name,
+          token: action.payload.token
         }
       };
     }

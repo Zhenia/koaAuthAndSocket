@@ -22,16 +22,9 @@ class ChatComponent extends React.Component {
   }
 
   componentDidMount() {
-          console.log(1111);
           this.props.actions.loadUpListMessages();
           socket.on('messagesList',data=>this.setState({messages:data}));  
   }
-  componentWillMount() {
-    console.log(1111);
-    this.props.actions.loadUpListMessages();
-    //socket.on('messagesList',data=>this.setState({messages:data}));  
-  }
-
  
   sendMessage = event =>{
       const textMessage = this.state.newMessage;
@@ -48,7 +41,6 @@ class ChatComponent extends React.Component {
 
 
   render() {
-    console.log(this.props);
     if (!this.props.pageData || !this.props.pageData.messages) return null;
     const { messages } = this.props.pageData;
       const listItems = messages.map(

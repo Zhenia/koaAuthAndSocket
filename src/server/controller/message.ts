@@ -33,6 +33,10 @@ export default class MessageController {
     public static async getMessages (ctx: BaseContext,next) {
         const messageRepository: Repository<Message> = getManager().getRepository(Message);
         const messages: Message[] = await messageRepository.find();
+        console.log('CHECK');
+        if(ctx.isAuthenticated()){
+            console.log('Authenticated');
+        }
         ctx.status = 200;
         const data = {messages}
         ctx.body = {data};

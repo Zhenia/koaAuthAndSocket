@@ -17,6 +17,7 @@ export default class AuthController {
             email: ctx.request.body.email,
             password: ctx.request.body.password
         });
+        let data;
         if (user) {
             const payload = {
                 id: user.id,
@@ -25,12 +26,13 @@ export default class AuthController {
                 role:'user'
             };
             const token = jwt.sign(payload, config.jwtSecret);
-            ctx.body = {user: user.name, token: 'JWT '+token};
+            data = {name: user.name, token: 'JWT '+token};           
             ctx.status = 200;
         } else {
             ctx.status = 400;
-            ctx.body = { status: 'error' };
+            data =  { status: 'error' };
         }
+        ctx.body = {data};
     }
 
     public static async googleAuth (ctx: BaseContext) {

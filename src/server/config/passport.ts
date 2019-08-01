@@ -42,16 +42,16 @@ const jwtOptions = {
 };
 
 passport.use(new JwtStrategy(jwtOptions, (payload, done) =>{
-  const userRepository = getManager().getRepository(User);
-  return userRepository.findOne(payload.id).
-  then((user) => {
-      if (user) {
-        done(null, user)
-      } else {
-        done(null, false)
-      }
-    })
-  .catch((err) => { return done(err); });
+    const userRepository = getManager().getRepository(User);
+    return userRepository.findOne(payload.id).
+      then((user) => {
+          if (user) {
+            done(null, user)
+          } else {
+            done(null, false)
+          }
+        })
+      .catch((err) => { return done(err); });
   })
 );
 

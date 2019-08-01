@@ -2,9 +2,10 @@ import * as React from "react";
 import "./../app.css";
 import ReactImage from "./../react.png";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Login from "./Login";
+import Auth from "./auth";
 import ChatComponent from "./chat";
 import UsersComponent from "./users";
+import Login from "./login";
 
 function Home() {
   return (
@@ -50,15 +51,16 @@ export default class App extends React.Component {
                   <Link to="/users/">User list</Link>
                 </li>
                 <li>
-                  <Link to="/competences/">competences</Link>
+                  <Link to="/login/">login</Link>
                 </li>
               </ul>
             </nav>
             <div className="content">
               <Route path="/" exact component={Home} />
-              <Route path="/auth/" component={Login} />
+              <Route path="/auth/" component={Auth} />
               <Route path="/chat/" component={ChatComponent} />
               <Route path="/users/" component={UsersComponent} />
+              <Route path="/login/" component={Login} />
             </div>
           </div>
         </Router>
