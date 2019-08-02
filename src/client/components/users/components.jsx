@@ -1,35 +1,26 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import { Table, Tr } from "styled-table-component";
+import { toClass} from 'recompose'
 
-class UserListComponent extends React.Component {
-  constructor () {
-    super(...arguments);
-  }
-
-  render () {
-    if (!this.props.pageData || !this.props.pageData.users) return null;
-    const { users } = this.props.pageData;
-    return (
-      <div>
-        <Table>
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Options</th>
-            </tr>
-          </thead>
-          {users && users.map(user => User(user))}
-        </Table>
-      </div>
-    )
-  }
-
-  componentWillMount (prevProps) {
-    this.props.actions.loadUpListUsers();
-  }
-}
+const UserListComponent = (props) => {
+  if (!props.pageData || !props.pageData.users) return null;
+  const {users} = props.pageData;
+  return (
+    <div>
+      <Table>
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Options</th>
+          </tr>
+        </thead>
+        {users && users.map(user => User(user))}
+      </Table>
+    </div>
+  )
+} 
 
 const User = item => {
   return (
@@ -44,4 +35,4 @@ const User = item => {
   )
 }
 
-export default UserListComponent;
+export default toClass(UserListComponent);

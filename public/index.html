@@ -12,10 +12,9 @@
     <div id="root"></div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const socket = io('http://ec2-3-8-209-31.eu-west-2.compute.amazonaws.com:3000');
-
-        const websocketConnect = (jwt) => {    
-        
+     //   const socket = io('http://ec2-3-8-209-31.eu-west-2.compute.amazonaws.com:3000');
+        const socket = io('http://localhost:3000');   
+        const websocketConnect = (jwt) => {
             socket.on('connect', function () {
             socket.emit("clientEvent", "Я еще не отослал свой токен");
             socket.emit('authenticate', {token: jwt})
@@ -27,7 +26,6 @@
                 throw new Error(msg.data.type);
             })
             });
-        
         };
         const token = localStorage.getItem('token')?localStorage.getItem('token').split(' ')[1]:'';
         websocketConnect(token);
