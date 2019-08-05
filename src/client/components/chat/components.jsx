@@ -1,6 +1,4 @@
 import React, { Component } from "react"
-import { toClass } from "recompose"
-
 import {
   Button,
   FormControl,
@@ -10,8 +8,7 @@ import {
   ListGroupItem
 } from "styled-bootstrap-components"
 
-
-const ChatComponent = (props) => {
+export default (props: any): React.ReactElement => {
   if (!props.pageData || !props.pageData.messages) return null;
   const { messages } = props.pageData;
   const listItems = messages.map(message => (
@@ -30,6 +27,7 @@ const ChatComponent = (props) => {
               name="newMessage"
               onChange={props.handleChange}
               textarea
+              value={props.pageData.newMessage}
               rows="3"
             />
           </FormGroup>
@@ -43,5 +41,3 @@ const ChatComponent = (props) => {
     </div>
   )
 }
-
-export default toClass(ChatComponent)

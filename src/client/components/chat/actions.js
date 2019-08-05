@@ -7,6 +7,16 @@ export const loadUpListMessages = () => {
   }
 }
 
+export const updateNewMessage = (text) => {
+  const data = {
+    newMessage:text
+  }
+  return {
+    payload: data,
+    type: t.UPDATE_NEW_MESSAGE
+  }
+}
+
 export const refreshBaseComponent = () =>
   ({
     type: t.REFRESH_BASE_COMPONENT

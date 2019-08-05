@@ -4,47 +4,37 @@ import * as actionCreators from './actions'
 import { bindActionCreators } from 'redux'
 import components from './components'
 import { selectPageData, selectError, selectLoader } from './selectors'
-import { compose, lifecycle, withHandlers,withStateHandlers} from 'recompose'
+import { compose, lifecycle, withHandlers} from 'recompose'
 
 const withMessageData = lifecycle({
-  state: { 
-    messages:[],
-    newMessage:''
-  },
   componentDidMount() {
     this.props.actions.loadUpListMessages();
-    socket.on('messagesList',(data)=>{
-        this.setState({messages:data})
+
+    socket.on('messageSaveSuccess',(data)=>{
+        if (data == true){        
+          this.props.actions.loadUpListMessages()
+          this.props.actions.updateNewMessage('')
+        }
+          
     });  
   }
 })
 
 const withHandlersForMessage = withHandlers({
   sendMessage: props => event => {
-    const textMessage = props.newMessage;
-    alert(textMessage);
+    const textMessage = props.pageData.newMessage;
     if (textMessage){
         socket.emit("addMessage", textMessage);
     }
   },
   handleChange: props => event => {
-     props.handleChangeMessage(event.target.value)
+    props.actions.updateNewMessage(event.target.value)
   }   
 })
-const withStateHandlersForMessage = withStateHandlers(
-  { 
-    newMessage: '' 
-  },
-  {
-    handleChangeMessage: (state) => (value) => ({ newMessage: value })  
-  }
-)
 
 const enhance = compose(
   withMessageData,
-  withStateHandlersForMessage,
   withHandlersForMessage
-  
 )
 
 const mapStateToProps = (state: any) =>{

@@ -21,8 +21,7 @@ export function socketRoutes (io) {
         var dataObject = {text:data, userId:socket.decoded_token.id }
         controller.message.createMessage(dataObject).then(()=>{
           controller.message.list().then((list)=>{
-            console.log(9898);
-            socket.emit('messagesList', list);
+            socket.emit('messageSaveSuccess', true);
           })
         });    
     })

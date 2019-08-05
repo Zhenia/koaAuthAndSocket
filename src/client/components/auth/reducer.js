@@ -31,10 +31,9 @@ export default (state: State = initialState, action: any): State => {
       return { ...state, isLoad: true, error: null };
     }
     case t.LOGIN_FORM_USER_FAILED: {
-      return { ...state, isLoad: false, error: action.error };
+      return { ...state, isLoad: false, error: action.error, pageData: {name:'ttttt'}};
     }
     case t.UPDATE_PAGE_DATA: {
-
       return {
           ...state,
           isLoad: false,
@@ -46,7 +45,7 @@ export default (state: State = initialState, action: any): State => {
     }
     case t.LOGIN_FORM_USER_SUCCEEDED: {
       window.localStorage.setItem('token', action.payload.token);
-      var a = {
+      return {
         ...state,
         isLoad: false,
         pageData: {
@@ -55,8 +54,6 @@ export default (state: State = initialState, action: any): State => {
           token: action.payload.token
         }
       };
-     // console.log(a);
-      return a ;
     }
     case t.REFRESH_BASE_COMPONENT: {
       return initialState;

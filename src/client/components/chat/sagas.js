@@ -10,8 +10,7 @@ export function* loadUpListMessages(action: any): any {
     yield put({
       type: t.LOAD_UP_LIST_MESSAGES_SUCCEEDED,
       payload: {
-        messages: response.data.messages,
-        roleType: {}
+        messages: response.data.messages
       }
     });
   } catch (error) {

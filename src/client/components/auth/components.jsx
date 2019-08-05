@@ -1,36 +1,8 @@
 import React, { Component } from "react"
-import styled from "styled-components"
 import GoogleAuth from "./../GoogleAuth"
-import { toClass } from "recompose"
+import {Button, Input} from "./../../styles/customStyleComponents"
 
-const Button = styled.a`
-  background: ${props =>
-    props.primary && !props.disabled ? "palevioletred" : "white"};
-  color: ${props =>
-    props.primary && !props.disabled ? "white" : "palevioletred"};
-  font-size: 1em;
-  margin: 1em;
-  padding: 0.5em 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
-  display: inline-block;
-  min-width: 170px;
-`;
-
-const Input = styled.input.attrs(props => ({
-  type: props.type || "text",
-  size: props.size || "0.5em"
-}))`
-  color: palevioletred;
-  font-size: 1em;
-  border: 2px solid palevioletred;
-  border-radius: 3px;
-  margin: ${props => props.size};
-  padding: ${props => props.size};
-`;
-
-const LoginComponent = props => {
-    console.log(props);
+export default (props: any): React.ReactElement => {
   let content
   if (props.pageData && props.pageData.name) {
     const { name } = props.pageData
@@ -46,11 +18,10 @@ const LoginComponent = props => {
     content = loginFormComponent(
       props.handleChange,
       props.sendForm,
-      props.validateForm,
-      props.dataPage
+      props.validateForm
     )
   }
-  return content
+  return (content);
 }
 
 const loginFormComponent = (handleChange, sendForm, valid) => {
@@ -81,5 +52,3 @@ const loginFormComponent = (handleChange, sendForm, valid) => {
     </form>
   )
 }
-
-export default <Component><LoginComponent {...props} /></Component> ;

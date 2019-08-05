@@ -55,7 +55,7 @@ export default class App extends React.Component {
               <Route path="/" exact component={Home} />
               <Route path="/auth/" component={Auth} />
               <Route path="/chat/" component={ChatComponent} />
-              <Route path="/users/" component={UsersComponent} />
+              <Route path="/users/" component={UsersComponent} />              
             </div>
           </div>
         </Router>

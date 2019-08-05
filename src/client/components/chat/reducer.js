@@ -32,6 +32,17 @@ export default (state: State = initialState, action: any): State => {
         }
       };
     }
+
+    case t.UPDATE_NEW_MESSAGE: {
+      return {
+        ...state,
+        isLoad: false,
+        pageData: {
+          ...state.pageData,
+          newMessage: action.payload.newMessage
+        }
+      };
+    }
     case t.REFRESH_BASE_COMPONENT: {
       return initialState;
     }
