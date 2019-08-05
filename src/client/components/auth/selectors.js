@@ -10,6 +10,7 @@ export const selectLoader = createSelector(getLoader, (isLoad: any) => {
 });
 
 export const selectPageData = createSelector(getPageData, (pageData: any) => {
+  console.log(pageData);
   return pageData;
 });
 

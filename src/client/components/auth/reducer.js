@@ -9,10 +9,7 @@ type State = {
 export const initialState: State = {
   isLoad: false,
   error: null,
-  pageData: {
-    email:'',
-    token:''
-  }
+  pageData: null
 };
 
 export default (state: State = initialState, action: any): State => {
@@ -36,6 +33,17 @@ export default (state: State = initialState, action: any): State => {
     case t.LOGIN_FORM_USER_FAILED: {
       return { ...state, isLoad: false, error: action.error };
     }
+    case t.UPDATE_PAGE_DATA: {
+
+      return {
+          ...state,
+          isLoad: false,
+          pageData: {
+                ...state.pageData,
+                [action.payload.name]: action.payload.value
+          }
+     };
+    }
     case t.LOGIN_FORM_USER_SUCCEEDED: {
       window.localStorage.setItem('token', action.payload.token);
       var a = {
@@ -47,7 +55,7 @@ export default (state: State = initialState, action: any): State => {
           token: action.payload.token
         }
       };
-      console.log(a);
+     // console.log(a);
       return a ;
     }
     case t.REFRESH_BASE_COMPONENT: {

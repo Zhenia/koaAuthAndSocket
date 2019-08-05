@@ -46,7 +46,8 @@ const LoginComponent = props => {
     content = loginFormComponent(
       props.handleChange,
       props.sendForm,
-      props.validateForm
+      props.validateForm,
+      props.dataPage
     )
   }
   return content
@@ -56,12 +57,12 @@ const loginFormComponent = (handleChange, sendForm, valid) => {
   return (
     <form id="form-login">
       <div>
-        <Input placeholder="email" name="email" onChange={handleChange} />
+        <Input placeholder="email" name="email" key="email" onChange={handleChange} />
       </div>
       <div>
         <Input
           placeholder="password"
-          name="password"
+          name="password" key="password"
           onChange={handleChange}
           type="password"
         />
@@ -81,4 +82,4 @@ const loginFormComponent = (handleChange, sendForm, valid) => {
   )
 }
 
-export default toClass(LoginComponent)
+export default <Component><LoginComponent {...props} /></Component> ;

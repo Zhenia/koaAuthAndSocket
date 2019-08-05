@@ -14,3 +14,11 @@ export const refreshBaseComponent = () =>
   ({
     type: t.REFRESH_BASE_COMPONENT
   }: { type: string })
+
+export const updatePageData = (data: any) =>
+({
+  type: t.UPDATE_PAGE_DATA,
+  payload: data
+}: { type: string })
+
+
