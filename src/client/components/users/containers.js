@@ -6,17 +6,6 @@ import components from './components'
 import { compose, lifecycle} from 'recompose'
 import { selectPageData, selectError, selectLoader } from './selectors'
 
-const withUserData = lifecycle({
-  state: { loading: true, users:[] },
-  componentDidMount() {
-    this.props.actions.loadUpListUsers();
-  }
-});
-
-const enhance = compose(
-  withUserData
-);
-
 const mapStateToProps = (state: any) =>{
     return  ({
         pageData: selectPageData(state),
@@ -29,8 +18,15 @@ const mapDispatchToProps = (dispatch: any) => ({
   actions: bindActionCreators(actionCreators, dispatch)
 });
 
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(enhance(components));
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  lifecycle({
+    state: { loading: true, users:[] },
+    componentDidMount() {
+      this.props.actions.loadUpListUsers();
+    }
+  })
+)(components);

@@ -4,10 +4,6 @@ import { Button, Input } from "../../styles/customStyleComponents";
 export default (props: any): React.ReactElement => {
   const { provider } = props;
   const disabled = props.pageData && props.pageData.disabled;
-  console.log(props.pageData);
-if (props.pageData && props.pageData.name){
-  console.log(props.pageData.name);
-}
   return (
     <div>
       {props.pageData && props.pageData.name? (

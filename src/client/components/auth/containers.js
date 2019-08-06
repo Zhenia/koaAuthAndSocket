@@ -4,7 +4,7 @@ import * as actionCreators from './actions'
 import { bindActionCreators } from 'redux'
 import components from './components'
 import { selectPageData, selectError, selectLoader } from './selectors'
-import { compose, withHandlers, withState,withPropsOnChange, withProps,lifecycle} from 'recompose'
+import { compose, withHandlers} from 'recompose'
 
 const mapStateToProps = (state: any) =>{
   return  ({
