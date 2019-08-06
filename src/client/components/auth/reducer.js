@@ -13,7 +13,6 @@ export const initialState: State = {
 };
 
 export default (state: State = initialState, action: any): State => {
-
   switch (action.type) {
     case t.LOGOUT_FORM_USER: {
       window.localStorage.removeItem('token');
@@ -23,7 +22,9 @@ export default (state: State = initialState, action: any): State => {
         pageData: {
           ...state.pageData,
           name: '',
-          token: ''
+          token: '',
+          email: '',
+          password: ''
         }
       };
     }

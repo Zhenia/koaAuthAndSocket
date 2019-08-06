@@ -16,6 +16,12 @@ var jwtKoa = require('koa-jwt');
 const jwt = require('jsonwebtoken');
 const socketIO = require('socket.io');
 const http = require('http');
+const session = require('koa-session');
+const CONFIG = {
+    key: 'koa:sess',
+    maxAge: 86400000,
+  };
+  
 
 const connectionOptions = PostgressConnectionStringParser.parse(config.databaseUrl);
 const dbPort = parseInt(connectionOptions.port);
@@ -38,6 +44,7 @@ createConnection({
     }
 }).then(async connection => {
     const app = new Koa();
+    app.use(session(CONFIG, app));
     app.use(serve('./dist'));
     app.use(bodyParser());
     app.use(bearerToken());
@@ -81,7 +88,6 @@ createConnection({
     var server  = http.createServer(app.callback());
     server.io = socketIO.listen(server);
     socketRoutes(server.io);
-
     server.listen(config.port);
     console.log(`Server running on port ${config.port}`);
 

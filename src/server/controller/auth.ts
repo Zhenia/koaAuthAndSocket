@@ -36,7 +36,7 @@ export default class AuthController {
     }
 
     public static async googleAuth (ctx: BaseContext) {
-        if (ctx.isAuthenticated()){
+        if (ctx.isAuthenticated()){            
             const user = ctx.state.user;
             const payload = {
                 id: user.id,

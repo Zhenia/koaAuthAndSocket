@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import GoogleAuth from "./../GoogleAuth"
+import OAuth from "../googleAuth"
 import {Button, Input} from "./../../styles/customStyleComponents"
 
 export default (props: any): React.ReactElement => {
@@ -18,7 +18,7 @@ export default (props: any): React.ReactElement => {
     content = loginFormComponent(
       props.handleChange,
       props.sendForm,
-      props.validateForm
+      props.validateForm()
     )
   }
   return (content);
@@ -47,7 +47,7 @@ const loginFormComponent = (handleChange, sendForm, valid) => {
         >
           Login in
         </Button>
-        <GoogleAuth />
+        <OAuth provider="google" key="google" socket={socket}/>
       </div>
     </form>
   )

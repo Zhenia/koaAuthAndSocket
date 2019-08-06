@@ -24,14 +24,17 @@ export default compose(
     mapDispatchToProps,
   ),
   withHandlers({
+    validateForm: props => event => {
+      return props.pageData && props.pageData.email && props.pageData.password;
+    },
+  }),
+  withHandlers({
     handleChange: props => event => {
           props.actions.updatePageData(event.target.name,event.target.value);
     },
-    validateForm: props => event => {
-      return props.pageData.email.length > 0 && props.pageData.password.length > 0;
-    },
-    sendForm:  props => event => {
-        if (true){
+   
+    sendForm: (props) => event => {
+        if (props.validateForm()){
             const values = {
                 email: props.pageData.email,
                 password:  props.pageData.password
