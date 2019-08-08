@@ -40,7 +40,7 @@ export default (state: State = initialState, action: any): State => {
           isLoad: false,
           pageData: {
                 ...state.pageData,
-                [action.payload.name]: action.payload.value
+                ...action.payload
           }
      };
     }

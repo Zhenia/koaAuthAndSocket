@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import OAuth from "../googleAuth"
 import {Button, Input} from "./../../styles/customStyleComponents"
 
+
 export default (props: any): React.ReactElement => {
   let content
   if (props.pageData && props.pageData.name) {
@@ -15,39 +16,37 @@ export default (props: any): React.ReactElement => {
       </div>
     )
   } else {
-    content = loginFormComponent(
-      props.handleChange,
-      props.sendForm,
-      props.validateForm()
+    content = loginFormComponent(props
     )
   }
   return (content);
 }
 
-const loginFormComponent = (handleChange, sendForm, valid) => {
+const loginFormComponent = (props) => {
   return (
+
     <form id="form-login">
       <div>
-        <Input placeholder="email" name="email" key="email" onChange={handleChange} />
+        <Input placeholder="email" name="email" key="email" onChange={props.handleChange} />
       </div>
       <div>
         <Input
           placeholder="password"
           name="password" key="password"
-          onChange={handleChange}
+          onChange={props.handleChange}
           type="password"
         />
       </div>
       <div>
         <Button
           size="0.5em"
-          onClick={sendForm}
+          onClick={props.sendForm}
           primary="true"
-          disabled={!valid}
+          disabled={!props.validateForm()}
         >
           Login in
         </Button>
-        <OAuth provider="google" key="google" socket={socket}/>
+        <OAuth provider="google" key="google" userContext={props.userContext} socket={socket}/>
       </div>
     </form>
   )

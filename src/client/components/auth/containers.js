@@ -4,7 +4,8 @@ import * as actionCreators from './actions'
 import { bindActionCreators } from 'redux'
 import components from './components'
 import { selectPageData, selectError, selectLoader } from './selectors'
-import { compose, withHandlers} from 'recompose'
+import { compose, withHandlers, lifecycle} from 'recompose'
+import withContext from '../../utils/context/HOC/withContext';
 
 const mapStateToProps = (state: any) =>{
   return  ({
@@ -23,6 +24,25 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
+  lifecycle({
+    componentDidUpdate() {
+      const isUserInContext = this.props.userContext && this.props.userContext.user && this.props.userContext.user.name && (!this.props.pageData || !this.props.pageData.name)
+      const isUserInPageData = this.props.userContext && (!this.props.userContext.user || !this.props.userContext.user.name) && this.props.pageData && this.props.pageData.name
+      if (isUserInContext){
+        this.props.actions.updatePageData({
+            name: this.props.userContext.user.name,
+            email: this.props.userContext.user.email
+        });
+      }
+      if (isUserInPageData){
+        this.props.userContext.toggleUser({
+          name:this.props.pageData.name,
+          email:this.props.pageData.email
+        });
+      }
+    }
+  }),
+
   withHandlers({
     validateForm: props => event => {
       return props.pageData && props.pageData.email && props.pageData.password;
@@ -30,7 +50,7 @@ export default compose(
   }),
   withHandlers({
     handleChange: props => event => {
-          props.actions.updatePageData(event.target.name,event.target.value);
+          props.actions.updatePageData({[event.target.name]:event.target.value});
     },
    
     sendForm: (props) => event => {
@@ -44,9 +64,11 @@ export default compose(
         return false;
     },
     logout: props => event => {
+      props.userContext.toggleUser({});
       props.actions.logoutFormUser();
     }  
-  })
-)(components);
+  }),
+
+)(withContext(components));
 
 

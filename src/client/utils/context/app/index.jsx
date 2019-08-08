@@ -4,27 +4,19 @@ import { Context, defaultRole, defaultUserid } from './../user-context';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleUser = user => {
-      this.setState({
-        user: user
-      });
-    };
-
-    this.toggleOrganization = data => {
-      this.setState({
-        organization: data.organization
-      });
-    };
-
+    
     this.state = {
       user: {
         roleType: defaultRole,
         role: defaultRole,
-        userid:defaultUserid
+        userid:defaultUserid,
+        name:''
       },
-      organization: {},
-      toggleUser: this.toggleUser,
-      toggleOrganization: this.toggleOrganization
+      toggleUser: (user) => {
+        this.setState({
+          user: user
+        })
+      }
     };
   }
   render() {

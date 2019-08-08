@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Auth from "./auth";
 import ChatComponent from "./chat";
 import UsersComponent from "./users";
-
+import withContext from "./../utils/context/HOC/withContext"
 function Home() {
   return (
     <div>
@@ -53,7 +53,7 @@ export default class App extends React.Component {
             </nav>
             <div className="content">
               <Route path="/" exact component={Home} />
-              <Route path="/auth/" component={Auth} />
+              <Route path="/auth/" component={withContext(Auth)} />              
               <Route path="/chat/" component={ChatComponent} />
               <Route path="/users/" component={UsersComponent} />              
             </div>

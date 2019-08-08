@@ -26,8 +26,14 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { socket, provider, popup } = this.props;
+      if (this.props.userContext && this.props.userContext.user && this.props.userContext.user.name){
+        props.actions.updatePageData({
+            name: this.props.userContext.user.name,
+            email: this.props.userContext.user.email
+          });
+      }
     },
-    componentWillUpdate() {   
+    componentWillUpdate(nextProps) {
       var  proccesing = ()=>{
         if (this.props.pageData && this.props.pageData.popup && this.props.pageData.popup.document && this.props.pageData.popup.document.body){
           const rex = /(<([^>]+)>)/ig;
@@ -36,8 +42,14 @@ export default compose(
           if (response && response.token){
             window.localStorage.setItem('token', response.token);
             this.props.pageData.popup.close();
-            this.props.actions.updateDataPage({ name : response.user, popup:''});
+            this.props.actions.updateDataPage({ name : response.user, email : response.email, popup:''});
+            this.props.userContext.toggleUser({
+              ... this.props.userContext.user,
+              name: this.props.pageData.name,
+              email: this.props.pageData.email
+            });
           }
+         
         }
       }
       setTimeout(proccesing, 1000);

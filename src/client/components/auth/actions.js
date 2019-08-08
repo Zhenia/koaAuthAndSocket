@@ -15,11 +15,7 @@ export const refreshBaseComponent = () =>
     type: t.REFRESH_BASE_COMPONENT
   }: { type: string })
 
-export const updatePageData = (name: string, value: any) =>{
-  const data = {
-    name,
-    value
-  }
+export const updatePageData = (data: any) =>{
   return ({
     type: t.UPDATE_PAGE_DATA,
     payload: data

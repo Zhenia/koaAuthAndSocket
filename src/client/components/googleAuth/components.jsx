@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { Button, Input } from "../../styles/customStyleComponents";
-
 export default (props: any): React.ReactElement => {
   const { provider } = props;
+  const { name } = props.userContext.user;
   const disabled = props.pageData && props.pageData.disabled;
   return (
     <div>
-      {props.pageData && props.pageData.name? (
+      {name? (
         <div className={"card"}>
-          <h4>{props.pageData.name}</h4>
+          <h4>{name}</h4>
         </div>
       ) : (
         <div className={"button-wrapper fadein-fast"}>
@@ -23,3 +23,7 @@ export default (props: any): React.ReactElement => {
     </div>
   );
 };
+
+
+
+

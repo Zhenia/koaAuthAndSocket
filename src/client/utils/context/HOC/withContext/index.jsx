@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Context } from './../../user-context';
-
+//provider  component
 export default function withContext(Component) {
   return function ThemedComponent(props) {
     return (

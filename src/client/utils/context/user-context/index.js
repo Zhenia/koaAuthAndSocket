@@ -5,7 +5,12 @@ export const Context = React.createContext({
   user: {
     roleType: defaultRole,
     role: defaultRole,
-    userid: defaultUserid
+    userid: defaultUserid,
+    name:'',
+    email:'hhhhh'
   },
-  toggleUser: () => {}
+  tuser:'9999',
+  toggleUser: () => {
+    alert(1111);
+  }
 });
