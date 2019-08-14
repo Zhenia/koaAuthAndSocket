@@ -14,19 +14,16 @@ export const initialState: State = {
 
 export default (state: State = initialState, action: any): State => {
   switch (action.type) {
-    case t.LOGOUT_FORM_USER: {
-      window.localStorage.removeItem('token');
+    case t.LOGIN_FORM_USER: {
+      return { ...state, isLoad: true, error: null };
+    }
+    case t.LOGIN_FORM_USER_FAILED: {
       return {
-        ...state,
-        isLoad: false,
-        pageData: {
-          ...state.pageData,
-          name: '',
-          token: '',
-          email: '',
-          password: ''
-        }
-      };
+         ...state,
+         isLoad: false,
+         error: action.error,
+         pageData: {name:''}
+        };
     }
     case t.UPDATE_PAGE_DATA: {
       return {
@@ -36,6 +33,18 @@ export default (state: State = initialState, action: any): State => {
                 ...state.pageData,
                 ...action.payload
           }
+     };
+    }
+    case t.LOGIN_FORM_USER_SUCCEEDED: {
+      window.localStorage.setItem('token', action.payload.token);
+      return {
+        ...state,
+        isLoad: false,
+        pageData: {
+          ...state.pageData,
+          name: action.payload.name,
+          token: action.payload.token
+        }
       };
     }
     case t.REFRESH_BASE_COMPONENT: {

@@ -1,5 +1,6 @@
-import React, { Component } from "react"
+import React, { Component, useState  } from "react"
 import OAuth from "../googleAuth"
+import LoginForm from "../loginForm"
 import {Button, Input} from "./../../styles/customStyleComponents"
 
 
@@ -16,38 +17,12 @@ export default (props: any): React.ReactElement => {
       </div>
     )
   } else {
-    content = loginFormComponent(props
-    )
+    content = 
+            <div>
+                <LoginForm {...props} /> 
+                <OAuth provider="google" key="google" userContext={props.userContext} socket={socket}/>
+            </div>
   }
   return (content);
 }
-
-const loginFormComponent = (props) => {
-  return (
-
-    <form id="form-login">
-      <div>
-        <Input placeholder="email" name="email" key="email" onChange={props.handleChange} />
-      </div>
-      <div>
-        <Input
-          placeholder="password"
-          name="password" key="password"
-          onChange={props.handleChange}
-          type="password"
-        />
-      </div>
-      <div>
-        <Button
-          size="0.5em"
-          onClick={props.sendForm}
-          primary="true"
-          disabled={!props.validateForm()}
-        >
-          Login in
-        </Button>
-        <OAuth provider="google" key="google" userContext={props.userContext} socket={socket}/>
-      </div>
-    </form>
-  )
-}
+  

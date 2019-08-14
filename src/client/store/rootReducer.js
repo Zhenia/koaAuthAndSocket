@@ -4,11 +4,13 @@ import users from './../components/users'
 import chat from './../components/chat'
 import auth from './../components/auth'
 import googleAuth from '../components/googleAuth'
+import loginForm from '../components/loginForm'
 
 export default combineReducers({
   form: formReducer,
   [users.constants.NAME]: users.reducer,
   [chat.constants.NAME]: chat.reducer,
   [auth.constants.NAME]: auth.reducer,
-  [googleAuth.constants.NAME]: googleAuth.reducer
+  [googleAuth.constants.NAME]: googleAuth.reducer,
+  [loginForm.constants.NAME]: loginForm.reducer
 })

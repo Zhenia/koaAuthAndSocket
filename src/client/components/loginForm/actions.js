@@ -1,10 +1,10 @@
 // @flow
 import * as t from './actionTypes';
 
-export const logoutFormUser = () => ({
-  type: t.LOGOUT_FORM_USER,
-  payload: {}
-}: { type: string })
+export const loginFormUser = (data: any) => ({
+  type: t.LOGIN_FORM_USER,
+  payload: data
+});
 
 export const refreshBaseComponent = () =>
   ({

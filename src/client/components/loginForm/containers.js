@@ -5,8 +5,7 @@ import { bindActionCreators } from 'redux'
 import components from './components'
 import { selectPageData, selectError, selectLoader } from './selectors'
 import { compose, withHandlers, lifecycle} from 'recompose'
-import withContext from '../../utils/context/HOC/withContext';
-
+import withContext from '../../utils/context/HOC/withContext'
 const mapStateToProps = (state: any) =>{
   return  ({
       pageData: selectPageData(state),
@@ -26,22 +25,29 @@ export default compose(
   ),
   lifecycle({
     componentDidUpdate() {
-      const isUserInContext = this.props.userContext && this.props.userContext.user && this.props.userContext.user.name && (!this.props.pageData || !this.props.pageData.name)
-      if (isUserInContext){
-        this.props.actions.updatePageData({
-            name: this.props.userContext.user.name,
-            email: this.props.userContext.user.email
+      const isUserInPageData = this.props.userContext && (!this.props.userContext.user || !this.props.userContext.user.name) && this.props.pageData && this.props.pageData.name
+      if (isUserInPageData){
+        this.props.userContext.toggleUser({
+          name: this.props.pageData.name,
+          email: this.props.pageData.email
         });
       }
     }
   }),
+
   withHandlers({
-    logout: props => event => {
-      props.userContext.toggleUser({});
-      props.actions.logoutFormUser();
+    validateForm: props => (data) => {
+      return data && data.email && data.password;
+    },
+  }),
+  withHandlers({
+    sendForm: (props) => (data) => {
+        if (props.validateForm(data)){
+            props.actions.loginFormUser(data);
+        }
+        return false;
     }  
   }),
-  
 
 )(withContext(components));
 
