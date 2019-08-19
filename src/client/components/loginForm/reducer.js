@@ -15,6 +15,7 @@ export const initialState: State = {
 export default (state: State = initialState, action: any): State => {
   switch (action.type) {
     case t.LOGIN_FORM_USER: {
+      alert(9999);
       return { ...state, isLoad: true, error: null };
     }
     case t.LOGIN_FORM_USER_FAILED: {
