@@ -8,6 +8,6 @@ ReactDOM.render(
    <Provider store={store}>
       <Context>
          <App />
-      </Context>    
+      </Context>
    </Provider>,
  document.getElementById('root'));

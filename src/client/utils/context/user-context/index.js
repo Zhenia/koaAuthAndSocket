@@ -11,6 +11,6 @@ export const Context = React.createContext({
   },
   tuser:'9999',
   toggleUser: () => {
-    alert(1111);
+    debugger;
   }
 });

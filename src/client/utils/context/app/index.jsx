@@ -9,13 +9,14 @@ export default class App extends React.Component {
       user: {
         roleType: defaultRole,
         role: defaultRole,
-        userid:defaultUserid,
+        userid: defaultUserid,
         name:''
       },
       toggleUser: (user) => {
         this.setState({
           user: user
         })
+        console.log('toggleUser');
       }
     };
   }

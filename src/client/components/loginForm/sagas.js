@@ -4,6 +4,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import fetch from './../../utils/api';
 export function* loginFormUser(action: any): any {
   try {
+    debugger
     const response = yield call(fetch.post, '/login',{
         email: action.payload.email,
         password: action.payload.password

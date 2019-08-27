@@ -1,21 +1,25 @@
-import React, { useState, useReducer, useEffect } from "react"
-import reducer, { initialState } from './reducer'
+import React, { useState, useEffect} from "react"
 import {Button, Input} from "./../../styles/customStyleComponents"
 import * as actions from './actions'
+import * as selector from './selectors'
+import { useDispatch, useSelector } from 'react-redux'
+
+
 
 export default (props: any): React.ReactElement => {
   const { errorData } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const dispatch = useDispatch()
+  const pageData = useSelector(state =>(selector.selectPageData(state)));
 
-  useEffect(() => {
-    const isUserInPageData = props.userContext && (!props.userContext.user || !props.userContext.user.name) && props.pageData && props.pageData.name
-    if (isUserInPageData){
+
+  useEffect(() => {   
+    const isUserInPageData = props.userContext && (!props.userContext.user || !props.userContext.user.name) && pageData && pageData.name
+    if (isUserInPageData && pageData.name!= props.userContext.user.name){
       props.userContext.toggleUser({
-        name: name,
-        email: email
+        name: pageData.name,
+        email: pageData.email
       });
     }
   })
@@ -24,7 +28,7 @@ export default (props: any): React.ReactElement => {
     return data && data.email && data.password;
   }
 
-  const sendForm = (data) => {
+  const sendForm = (data) => {  
     if (validateForm(data)){
         return () => dispatch(actions.loginFormUser(data))
     }
@@ -46,6 +50,7 @@ export default (props: any): React.ReactElement => {
       </div>
       {errorData && errorData.message}
       <div>
+     
       <Button
         size="0.5em"
         onClick={sendForm({email,password})}

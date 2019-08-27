@@ -43,6 +43,7 @@ export default compose(
             window.localStorage.setItem('token', response.token);
             this.props.pageData.popup.close();
             this.props.actions.updateDataPage({ name : response.user, email : response.email, popup:''});
+            console.log(2222222)
             this.props.userContext.toggleUser({
               ... this.props.userContext.user,
               name: this.props.pageData.name,

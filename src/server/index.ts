@@ -10,6 +10,7 @@ import {User} from './entity/user';
 import {Message} from './entity/message';
 import {passport} from './config/passport';
 import {socketRoutes} from './config/socketRoutes';
+const cors = require('@koa/cors');
 //const acl = require('koa-2-acl');
 const bearerToken = require('koa-bearer-token')
 var jwtKoa = require('koa-jwt');
@@ -44,8 +45,9 @@ createConnection({
     }
 }).then(async connection => {
     const app = new Koa();
+    app.use(cors());
     app.use(session(CONFIG, app));
-    app.use(serve('./dist'));
+    app.use(serve('./src/my-app/public'));
     app.use(bodyParser());
     app.use(bearerToken());
     app.use(jwtKoa({ secret: config.jwtSecret}).unless({ path: [/^\/*/] }));
