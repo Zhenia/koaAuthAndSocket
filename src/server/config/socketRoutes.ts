@@ -4,6 +4,7 @@ import { config } from './../config/config';
 import {Message} from './../entity/message'
 
 export function socketRoutes (io) {
+  
     io.sockets.on('connection', socketioJwt.authorize({
         secret: config.jwtSecret,
         timeout: 15000

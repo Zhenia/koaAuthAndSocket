@@ -10,7 +10,7 @@ import {User} from './entity/user';
 import {Message} from './entity/message';
 import {passport} from './config/passport';
 import {socketRoutes} from './config/socketRoutes';
-const cors = require('@koa/cors');
+const cors = require('koa2-cors');
 //const acl = require('koa-2-acl');
 const bearerToken = require('koa-bearer-token')
 var jwtKoa = require('koa-jwt');
@@ -44,6 +44,7 @@ createConnection({
         ssl: config.dbsslconn, // if not development, will use SSL
     }
 }).then(async connection => {
+    console.log(111111);
     const app = new Koa();
     app.use(cors());
     app.use(session(CONFIG, app));
@@ -86,7 +87,7 @@ createConnection({
     */
    /* ACL*/
 
-
+    
     var server  = http.createServer(app.callback());
     server.io = socketIO.listen(server);
     socketRoutes(server.io);

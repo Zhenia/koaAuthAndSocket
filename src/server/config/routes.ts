@@ -23,9 +23,7 @@ router.delete('/users/:id', controller.user.deleteUser);
 
 // MESSAGES ROUTES
 router.get('/messages', passport.authenticate('jwt', { session: false }), controller.message.getMessages);
-
 router.get('/auth/google', addSocketIdtoSession, passport.authenticate('google', { scope: [ 'email', 'profile' ] }));
-
 router.get( '/auth/google/callback', passport.authenticate('google', { scope: ['email', 'profile' ] }), controller.auth.googleAuth);
 
 
