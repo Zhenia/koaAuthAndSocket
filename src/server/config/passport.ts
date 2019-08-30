@@ -58,7 +58,7 @@ passport.use(new JwtStrategy(jwtOptions, (payload, done) =>{
 passport.use(new GoogleStrategy({
     clientID:     config.google_client_id,
     clientSecret: config.google_client_secret,
-    callbackURL: config.domain+"/auth/google/callback",
+    callbackURL: "http://localhost:3001/auth/google/callback",
     passReqToCallback   : true
   },
   function(request, accessToken, refreshToken, profile, done) {
